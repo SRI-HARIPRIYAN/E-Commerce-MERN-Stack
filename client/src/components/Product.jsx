@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Product({ product }) {
 	return (
 		<Link
-			to={`/product/${product.id}`}
+			to={`/products/${product.id}`}
 			className="flex flex-col justify-around p-1 shadow-md shadow-gray-400"
 		>
 			<div>
