@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Spinner from "../components/Spinner.jsx";
+import { useGetProductsQuery } from "../slices/productsApislice.js";
 import Product from "../components/Product.jsx";
+import { toast } from "react-toastify";
+
 const HomeScreen = () => {
-	const [products, setProducts] = useState([]);
-	useEffect(() => {
-		const fetchProducts = async () => {
-			const { data } = await axios.get("/api/products");
-			setProducts(data);
-		};
-		fetchProducts();
-	}, []);
+	const { data: products, isLoading, error } = useGetProductsQuery();
+
+	if (isLoading) return <Spinner />;
+	if (error) {
+		toast.error(error?.data?.message || error?.error);
+		console.log(error.message);
+	}
+
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 place-content-center mx-auto m-2">
-			{products.map((product, index) => (
-				<Product key={index} product={product} />
-			))}
-		</div>
+		<>
+			{isLoading ? (
+				<Spinner />
+			) : error ? (
+				<h1>{} </h1>
+			) : (
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 place-content-center mx-auto m-2">
+					{products.map((product, index) => (
+						<Product key={index} product={product} />
+					))}
+				</div>
+			)}
+		</>
 	);
 };
 

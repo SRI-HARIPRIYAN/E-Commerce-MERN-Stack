@@ -5,9 +5,14 @@ import { RiArrowDropUpLine } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { TbLogout2 } from "react-icons/tb";
+import { useSelector } from "react-redux";
+
 const Header = () => {
 	const [isAsideClicked, setIsAsideClicked] = useState(false);
 	const [isProfileClicked, setIsProfileClicked] = useState(false);
+
+	const { cartItems } = useSelector((state) => state.cart);
+	console.log(cartItems.length);
 	return (
 		<nav className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5  text-white ">
 			<div className="flex  justify-between items-center gap-1 md:gap-3">
@@ -27,6 +32,9 @@ const Header = () => {
 			<div className="hidden md:flex md:items-center gap-2 ">
 				<button className=" cursor-pointer">
 					<TiShoppingCart className="inline " /> Cart
+					<span className="bg-sky-300 rounded-full px-2 ml-1">
+						{cartItems.length}
+					</span>
 				</button>
 				<div className="relative">
 					<div
@@ -64,15 +72,18 @@ const Header = () => {
 				&#8801;
 			</div>
 			{isAsideClicked && (
-				<div className=" w-full left-0 flex flex-col md:hidden justify-around h-28 items-center bg-slate-600 text-inherit absolute text-black top-[64px]">
-					<button className="border-top-2 border-white h-6 ">
+				<div className=" w-full left-0 flex flex-col md:hidden justify-around h-fit items-center bg-slate-600 text-inherit absolute text-black top-[64px]">
+					<button className="border-top-2 border-white py-2 ">
 						<TiShoppingCart className="inline " /> Cart
+						<span className="bg-sky-300 rounded-full px-2 ml-1">
+							{cartItems.length}
+						</span>
 					</button>
-					<button className="border-t-2 w-[90%] border-white border-opacity-45 h-6 ">
+					<button className="border-t-2 w-[90%] border-white border-opacity-45 py-2 ">
 						<MdOutlinePersonOutline className="inline" /> Profile
 					</button>
-					<button className="  border-t-2 w-[90%] border-white border-opacity-45  h-6">
-						Signin
+					<button className="  border-t-2 w-[90%] border-white border-opacity-45 py-2 ">
+						<span className=" ml-3">Signin</span>
 					</button>
 				</div>
 			)}
@@ -81,35 +92,3 @@ const Header = () => {
 };
 
 export default Header;
-
-/*<div className="w-screen h-16 md:h-20 bg-blue-900  text-white flex justify-between md:p-2 p-1">
-			<div className="flex justify-between items-center gap-1.5">
-				<p className=" font-bold md:font-extrabold text-[1.5rem] md:text-3xl ml-2">
-					Eco-cart
-				</p>
-				<div className="flex justify-around gap-2">
-					<input type="text" className="h-7 w-36" />
-					<button className="bg-sky-500 rounded-sm px-1 py-0.5">
-						search
-					</button>
-				</div>
-			</div>
-			<nav className="hidden md:flex md:gap-3 md:items-center">
-				<p className="cursor-pointer">
-					<TiShoppingCart className="inline " /> cart
-				</p>
-				<p className="cursor-pointer">orders</p>
-				<button
-					className="cursor-pointer"
-					onClick={() => setIsProfileClicked(!isProfileClicked)}
-				>
-					profile
-					{isProfileClicked ? (
-						<RiArrowDropUpLine className="inline text-xl " />
-					) : (
-						<RiArrowDropDownLine className="inline text-xl " />
-					)}
-					<nav className=""></nav>
-				</button>
-			</nav>
-		</div> */
