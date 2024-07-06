@@ -19,6 +19,7 @@ const ProductScreen = () => {
 
 	const addToCartHandler = () => {
 		dispatch(addToCart({ ...product, qty }));
+		navigate("/cart");
 	};
 	return (
 		<div className="w-full h-fit text-black   p-2 sm:p-5 mx-auto">

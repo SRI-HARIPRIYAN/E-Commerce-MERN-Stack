@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -30,12 +30,12 @@ const Header = () => {
 				</div>
 			</div>
 			<div className="hidden md:flex md:items-center gap-2 ">
-				<button className=" cursor-pointer">
+				<Link to="/cart" className=" cursor-pointer">
 					<TiShoppingCart className="inline " /> Cart
 					<span className="bg-sky-300 rounded-full px-2 ml-1">
 						{cartItems.length}
 					</span>
-				</button>
+				</Link>
 				<div className="relative">
 					<div
 						className="cursor-pointer"
@@ -73,12 +73,15 @@ const Header = () => {
 			</div>
 			{isAsideClicked && (
 				<div className=" w-full left-0 flex flex-col md:hidden justify-around h-fit items-center bg-slate-600 text-inherit absolute text-black top-[64px]">
-					<button className="border-top-2 border-white py-2 ">
+					<Link
+						to="/cart"
+						className="border-top-2 border-white py-2 "
+					>
 						<TiShoppingCart className="inline " /> Cart
 						<span className="bg-sky-300 rounded-full px-2 ml-1">
 							{cartItems.length}
 						</span>
-					</button>
+					</Link>
 					<button className="border-t-2 w-[90%] border-white border-opacity-45 py-2 ">
 						<MdOutlinePersonOutline className="inline" /> Profile
 					</button>
