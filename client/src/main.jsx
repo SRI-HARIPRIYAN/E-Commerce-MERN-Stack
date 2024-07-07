@@ -15,6 +15,7 @@ import ProductScreen from "./screens/ProductScreen.jsx";
 import CartScreen from "./screens/CartScreen.jsx";
 
 const router = createBrowserRouter(
+	//using createRoutesFromElements for conditional routing
 	createRoutesFromElements(
 		<Route path="/" element={<App />}>
 			<Route index={true} path="/" element={<HomeScreen />} />
@@ -33,3 +34,25 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		<RouterProvider router={router} />
 	</Provider>
 );
+
+//Another way of implementing routes
+/* const hello = createBrowserRouter([
+	{
+		path: "/",
+		element: <App />,
+		children: [
+			{
+				path: "/",
+				element: <HomeScreen />,
+			},
+			{
+				path: "/products/:id",
+				element: <ProductScreen />,
+			},
+			{
+				path: "/cart",
+				element: <CartScreen />,
+			},
+		],
+	},
+]); */

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import users from "./Data/users.js";
 import products from "./Data/products.js";
