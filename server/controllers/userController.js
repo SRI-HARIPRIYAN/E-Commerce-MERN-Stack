@@ -1,6 +1,8 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
+import sendMail from "../utils/sendEmail.js";
+
 const loginUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
@@ -46,4 +48,78 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 });
 
-export { loginUser, registerUser };
+const updateUser = asyncHandler(async (req, res) => {
+	const { _id, name, email, password } = req.body;
+
+	const user = await User.findById(_id);
+	if (user) {
+		user.name = name || user.name;
+		user.email = email || user.email;
+		if (password) user.password = password;
+		await user.save();
+		res.status(200).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+		});
+	} else {
+		res.status(404);
+		throw new Error("User not found");
+	}
+});
+
+const logoutUser = asyncHandler((req, res) => {
+	res.cookie("jwt", "", {
+		httpOnly: true,
+		expires: new Date(0),
+	});
+	res.status(200).json({
+		message: "Logged out successfully",
+	});
+});
+6;
+const forgotPassword = asyncHandler(async (req, res) => {
+	const { email } = req.body;
+	const user = await User.findOne({ email });
+	if (!user) {
+		res.status(404);
+		throw new Error("User not found");
+	}
+	const resetToken = user.createPasswordResetToken();
+
+	user.save();
+
+	const resetUrl = `${req.protocol}://${req.get(
+		"host"
+	)}/reset-password/${resetToken}`;
+	const message = `Hi ${user.name} Please follow this link to change your password: ${resetUrl}`;
+	try {
+		await sendMail({
+			email: user.email,
+			subject: "Your password reset Token is valid for 10 mins",
+			message,
+			//name: user.name,
+		});
+		res.status(200).json({
+			message: "Token sent to mail",
+		});
+	} catch (error) {
+		user.passwordResetToken = undefined;
+		user.passwordResetExpires = undefined;
+		user.save();
+		console.log(error);
+		res.status(500).json({
+			status: "error",
+			message: "Something went wrong please try again later..",
+		});
+	}
+});
+const resetPassword = () => {};
+export {
+	loginUser,
+	registerUser,
+	updateUser,
+	logoutUser,
+	forgotPassword,
+	resetPassword,
+};
