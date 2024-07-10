@@ -14,6 +14,7 @@ import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen.jsx";
 import CartScreen from "./screens/CartScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
+import ResetPassword from "./screens/ResetPassword.jsx";
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
 	createRoutesFromElements(
@@ -26,6 +27,10 @@ const router = createBrowserRouter(
 			/>
 			<Route path="/cart" element={<CartScreen />} />
 			<Route path="/login" element={<LoginScreen />} />
+			<Route
+				path="/reset-password/:resetToken"
+				element={<ResetPassword />}
+			/>
 		</Route>
 	)
 );

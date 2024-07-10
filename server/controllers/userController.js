@@ -89,9 +89,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
 	user.save();
 
-	const resetUrl = `${req.protocol}://${req.get(
-		"host"
-	)}/api/users/reset-password/${resetToken}`;
+	const resetUrl = `${req.protocol}://localhost:3000/reset-password/${resetToken}`;
 	const message = `Hi ${user.name} Please follow this link to change your password: ${resetUrl}`;
 	try {
 		await sendMail({
