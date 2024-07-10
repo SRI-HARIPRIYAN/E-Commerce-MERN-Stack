@@ -13,7 +13,7 @@ import "./index.css";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen.jsx";
 import CartScreen from "./screens/CartScreen.jsx";
-
+import LoginScreen from "./screens/LoginScreen.jsx";
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
 	createRoutesFromElements(
@@ -25,6 +25,7 @@ const router = createBrowserRouter(
 				element={<ProductScreen />}
 			/>
 			<Route path="/cart" element={<CartScreen />} />
+			<Route path="/login" element={<LoginScreen />} />
 		</Route>
 	)
 );

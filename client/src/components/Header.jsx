@@ -12,7 +12,7 @@ const Header = () => {
 	const [isProfileClicked, setIsProfileClicked] = useState(false);
 
 	const { cartItems } = useSelector((state) => state.cart);
-	console.log(cartItems.length);
+
 	return (
 		<nav className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5  text-white ">
 			<div className="flex  justify-between items-center gap-1 md:gap-3">
