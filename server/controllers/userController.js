@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import sendMail from "../utils/sendEmail.js";
-
+import crypto from "crypto";
 const loginUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
@@ -91,7 +91,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
 	const resetUrl = `${req.protocol}://${req.get(
 		"host"
-	)}/reset-password/${resetToken}`;
+	)}/api/users/reset-password/${resetToken}`;
 	const message = `Hi ${user.name} Please follow this link to change your password: ${resetUrl}`;
 	try {
 		await sendMail({
@@ -114,7 +114,37 @@ const forgotPassword = asyncHandler(async (req, res) => {
 		});
 	}
 });
-const resetPassword = () => {};
+const resetPassword = asyncHandler(async (req, res) => {
+	const hashedToken = crypto
+		.createHash("sha256")
+		.update(req.params.resetToken)
+		.digest("hex");
+
+	const user = await User.findOne({
+		passwordResetToken: hashedToken,
+		passwordResetExpires: { $gt: Date.now() },
+	});
+
+	if (!user) {
+		res.status(400).json({
+			status: "fail",
+			message: "Invalid token or token expired",
+		});
+	}
+	user.password = req.body.password;
+	user.passwordResetToken = undefined;
+	user.passwordResetExpires = undefined;
+	user.save();
+
+	generateToken(res, user._id);
+
+	res.status(201).json({
+		_id: user._id,
+		name: user.name,
+		email: user.email,
+		isAdmin: user.isAdmin,
+	});
+});
 export {
 	loginUser,
 	registerUser,
