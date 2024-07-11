@@ -69,13 +69,17 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler((req, res) => {
-	res.cookie("jwt", "", {
-		httpOnly: true,
-		expires: new Date(0),
-	});
-	res.status(200).json({
-		message: "Logged out successfully",
-	});
+	try {
+		res.cookie("jwt", "", {
+			httpOnly: true,
+			expires: new Date(0),
+		});
+		res.status(200).json({
+			message: "Logged out successfully",
+		});
+	} catch (error) {
+		res.status(400).json({ error: error?.message });
+	}
 });
 6;
 const forgotPassword = asyncHandler(async (req, res) => {
