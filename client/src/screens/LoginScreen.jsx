@@ -10,6 +10,7 @@ import {
 } from "../slices/userApiSlilce.js";
 import { setCredentials } from "../slices/userSlice.js";
 import Spinner from "../components/Spinner.jsx";
+import { BACKEND_URL } from "../constants.js";
 
 const LoginScreen = () => {
 	const [email, setEmail] = useState("");
@@ -42,6 +43,14 @@ const LoginScreen = () => {
 			} catch (error) {
 				toast.error(error?.data?.message || error?.message);
 			}
+		}
+	};
+
+	const handleGoogleAuth = () => {
+		try {
+			window.location.href = `${BACKEND_URL}/auth/google/callback`;
+		} catch (error) {
+			toast.error(error?.data?.message || error?.message);
 		}
 	};
 
@@ -101,6 +110,7 @@ const LoginScreen = () => {
 							Login
 						</button>
 						<button
+							onClick={handleGoogleAuth}
 							type="button"
 							className="bg-red-400 text-white px-1.5 py-1 rounded-md"
 						>

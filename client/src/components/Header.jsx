@@ -128,7 +128,7 @@ const Header = () => {
 					</Link>
 					{userInfo && (
 						<button
-							onClick={() => handleLogout}
+							onClick={handleLogout}
 							className="text-center  border-t-2 w-[90%] border-white border-opacity-45 py-2 "
 						>
 							<TbLogout2 className="inline mr-1" />
