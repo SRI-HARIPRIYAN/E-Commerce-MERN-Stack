@@ -31,7 +31,7 @@ const HomeScreen = () => {
 	};
 	useEffect(() => {
 		getUser();
-	});
+	}, []);
 	if (isLoading) return <Spinner />;
 	if (error) {
 		toast.error(error?.data?.message || error?.error);

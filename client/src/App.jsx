@@ -9,7 +9,7 @@ const App = () => {
 	return (
 		<div className="flex flex-col min-h-screen max-w-screen ">
 			<Header />
-			<main className="w-screen flex-grow flex ">
+			<main className="w-screen flex-grow flex justify-center items-center ">
 				<Outlet />
 				<ToastContainer />
 			</main>

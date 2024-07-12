@@ -17,6 +17,7 @@ import CartScreen from "./screens/CartScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ResetPassword from "./screens/ResetPassword.jsx";
+import ShippingScreen from "./screens/ShippingScreen.jsx";
 
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
@@ -26,15 +27,16 @@ const router = createBrowserRouter(
 			<Route path="/login" element={<LoginScreen />} />
 			<Route path="/register" element={<RegisterScreen />} />
 			<Route
+				path="/reset-password/:resetToken"
+				element={<ResetPassword />}
+			/>
+			<Route
 				index={true}
 				path="/products/:id"
 				element={<ProductScreen />}
 			/>
 			<Route path="/cart" element={<CartScreen />} />
-			<Route
-				path="/reset-password/:resetToken"
-				element={<ResetPassword />}
-			/>
+			<Route path="/shipping" element={<ShippingScreen />} />
 		</Route>
 	)
 );

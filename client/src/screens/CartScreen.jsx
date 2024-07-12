@@ -11,7 +11,7 @@ export default function CartScreen() {
 	const disPatch = useDispatch();
 
 	const handleCheckout = () => {
-		//navigate("/checkout")
+		navigate("/login?redirect=/shipping");
 	};
 	const handleDeleteItem = (id) => {
 		disPatch(removeFromCart(id));
