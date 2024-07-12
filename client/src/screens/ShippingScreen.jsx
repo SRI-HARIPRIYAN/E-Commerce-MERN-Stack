@@ -18,7 +18,7 @@ const ShippingScreen = () => {
 		e.preventDefault();
 		console.log(address, city, postalcode, country);
 		dispatch(saveShippingAddress({ address, city, postalcode, country }));
-		//navigate("/payment")
+		navigate("/payment");
 	};
 	return (
 		<div className="w-full h-full  ">

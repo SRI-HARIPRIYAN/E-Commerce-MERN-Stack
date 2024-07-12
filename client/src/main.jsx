@@ -18,6 +18,8 @@ import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ResetPassword from "./screens/ResetPassword.jsx";
 import ShippingScreen from "./screens/ShippingScreen.jsx";
+import PaymentScreen from "./screens/PaymentScreen.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
@@ -36,7 +38,10 @@ const router = createBrowserRouter(
 				element={<ProductScreen />}
 			/>
 			<Route path="/cart" element={<CartScreen />} />
-			<Route path="/shipping" element={<ShippingScreen />} />
+			<Route path="" element={<PrivateRoute />}>
+				<Route path="/shipping" element={<ShippingScreen />} />
+				<Route path="/payment" element={<PaymentScreen />} />
+			</Route>
 		</Route>
 	)
 );
