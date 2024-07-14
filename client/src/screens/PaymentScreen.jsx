@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { savePaymentMethod } from "../slices/cartSlice.js";
+import { savePaymentMethod } from "../slices/cartSlice";
 export default function PaymentScreen() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [paymentMethod, setPaymentMethod] = useState("");
+	const [selectedPayment, setSelectedPayment] = useState("");
 
 	const handleContinue = () => {
-		dispatch(savePaymentMethod(paymentMethod));
-		//navigate("/place-order")
+		dispatch(savePaymentMethod(selectedPayment));
+		navigate("/place-order");
 	};
 
 	return (
@@ -24,8 +24,10 @@ export default function PaymentScreen() {
 							name="stripe"
 							id="stripe"
 							value="Stripe or Credit card"
-							onChange={(e) => setPaymentMethod(e.target.value)}
-							checked={paymentMethod === "Stripe or Credit card"}
+							onChange={(e) => setSelectedPayment(e.target.value)}
+							checked={
+								selectedPayment === "Stripe or Credit card"
+							}
 						/>
 						<span className="pl-1">Stripe or Credit card</span>
 					</label>

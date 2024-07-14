@@ -7,8 +7,8 @@ const ShippingScreen = () => {
 	const { shippingAddress } = cart;
 	const [address, setAddress] = useState(shippingAddress?.address || "");
 	const [city, setCity] = useState(shippingAddress?.city || "");
-	const [postalcode, setPostalcode] = useState(
-		shippingAddress?.postalcode || ""
+	const [postalCode, setPostalCode] = useState(
+		shippingAddress?.postalCode || ""
 	);
 	const [country, setCountry] = useState(shippingAddress?.country || "");
 
@@ -16,8 +16,8 @@ const ShippingScreen = () => {
 	const navigate = useNavigate();
 	const handlePayment = (e) => {
 		e.preventDefault();
-		console.log(address, city, postalcode, country);
-		dispatch(saveShippingAddress({ address, city, postalcode, country }));
+		console.log(address, city, postalCode, country);
+		dispatch(saveShippingAddress({ address, city, postalCode, country }));
 		navigate("/payment");
 	};
 	return (
@@ -53,17 +53,17 @@ const ShippingScreen = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-1.5">
-					<label className="text-sm" htmlFor="postalcode">
+					<label className="text-sm" htmlFor="postalCode">
 						Postal Code
 					</label>
 					<input
 						className="py-0.5 pl-1 border-2  border-opacity-35 rounded-md border-gray-700"
 						type="text"
-						name="postalcode"
-						id="postalcode"
+						name="postalCode"
+						id="postalCode"
 						placeholder="Ex: 600001"
-						onChange={(e) => setPostalcode(e.target.value)}
-						value={postalcode}
+						onChange={(e) => setPostalCode(e.target.value)}
+						value={postalCode}
 					/>
 				</div>
 				<div className="flex flex-col gap-1.5">

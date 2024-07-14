@@ -8,6 +8,7 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import passport from "./utils/passport.js";
 import authRoutes from "./routes/authRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -25,10 +26,10 @@ app.use(
 	})
 );
 app.use(cookieParser());
+passport(app);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-passport(app);
 
 app.get("/", (req, res) => {
 	res.send("api is runnings");
@@ -37,6 +38,8 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 

@@ -20,6 +20,7 @@ import ResetPassword from "./screens/ResetPassword.jsx";
 import ShippingScreen from "./screens/ShippingScreen.jsx";
 import PaymentScreen from "./screens/PaymentScreen.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
 
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
 			<Route path="" element={<PrivateRoute />}>
 				<Route path="/shipping" element={<ShippingScreen />} />
 				<Route path="/payment" element={<PaymentScreen />} />
+				<Route path="/place-order" element={<PlaceOrderScreen />} />
 			</Route>
 		</Route>
 	)
