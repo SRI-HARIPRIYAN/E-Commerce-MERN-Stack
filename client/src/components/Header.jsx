@@ -52,7 +52,9 @@ const Header = () => {
 				>
 					<div className="cursor-pointer hover:bg-slate-600 rounded-md py-0.5">
 						<MdOutlinePersonOutline className="inline" />
-						<span> Profile</span>
+						<Link to="/profile" className="inline">
+							Profile
+						</Link>
 					</div>
 					<Link
 						onClick={handleLogout}
@@ -104,7 +106,7 @@ const Header = () => {
 			{isAsideClicked && (
 				<div className=" w-full left-0 flex flex-col md:hidden justify-around h-fit items-center bg-slate-600 text-inherit absolute text-black top-[64px]">
 					{userInfo && (
-						<Link className=" py-2 ">
+						<Link to="/profile" className=" py-2 ">
 							<MdOutlinePersonOutline className="inline mr-1" />
 							{userInfo?.name}
 						</Link>
