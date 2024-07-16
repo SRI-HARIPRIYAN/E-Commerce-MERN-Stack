@@ -1,10 +1,15 @@
 import React from "react";
-import { useGetOrderDetailsQuery } from "../slices/orderApiSlice";
-import { useParams } from "react-router-dom";
+import {
+	useGetOrderDetailsQuery,
+	usePayWithStripeMutation,
+} from "../slices/orderApiSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner.jsx";
+
 const OrderScreen = () => {
+	const navigate = useNavigate();
 	const { id: orderId } = useParams();
 	const { userInfo } = useSelector((state) => state.user);
 	const {
@@ -13,6 +18,10 @@ const OrderScreen = () => {
 		error,
 		refetch,
 	} = useGetOrderDetailsQuery(orderId);
+
+	const [payWithStripe, { isLoading: loadingStripe }] =
+		usePayWithStripeMutation();
+
 	if (error) {
 		return toast.error(error.message);
 	}
@@ -20,9 +29,20 @@ const OrderScreen = () => {
 		return <Spinner />;
 	}
 	const { shippingAddress, user, isDelivered, orderItems } = order;
+
 	const calculateTotal = (orderItems) => {
 		return orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
 	};
+
+	const handleStripePayment = async (orderItems) => {
+		try {
+			const res = await payWithStripe(orderItems).unwrap();
+			window.location.href = res.url;
+		} catch (err) {
+			toast.error(err?.data?.message || err?.error);
+		}
+	};
+
 	return (
 		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-[300px] sm:w-full mx-auto sm:pt-10 sm:pl-10 ">
 			<section className="p-3 flex flex-col gap-2">
@@ -80,15 +100,20 @@ const OrderScreen = () => {
 					<span>Total: {calculateTotal(orderItems).toFixed(2)}</span>
 				</div>
 				<div className="flex gap-2 justify-start">
-					<button className=" bg-blue-500 rounded-md py-1 px-1 text-white hover:bg-green-700">
+					<button
+						onClick={() => handleStripePayment(orderItems)}
+						className=" bg-blue-500 rounded-md py-1 px-1 text-white hover:bg-green-700"
+					>
 						Pay with Stripe
 					</button>
+
 					{userInfo.isAdmin && !order.isDelivered && (
 						<button className=" bg-black rounded-md py-1 px-1 text-white hover:bg-green-700">
 							Mark as Delivered
 						</button>
 					)}
 				</div>
+				{loadingStripe && <Spinner />}
 			</section>
 			{/* {isLoading && (
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

@@ -9,10 +9,15 @@ import userRoutes from "./routes/userRoutes.js";
 import passport from "./utils/passport.js";
 import authRoutes from "./routes/authRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import stripe from "./utils/stripe.js";
+
 dotenv.config();
 
-const app = express();
+connectDb();
+
 const PORT = process.env.PORT || 5000;
+
+const app = express();
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -21,7 +26,7 @@ app.use((req, res, next) => {
 app.use(
 	cors({
 		origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
-		methods: "GET,POST,PATCH DELETE,PUT",
+		methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
 		credentials: true,
 	})
 );
@@ -30,9 +35,10 @@ passport(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+stripe(app);
 
 app.get("/", (req, res) => {
-	res.send("api is runnings");
+	res.send("api is running");
 });
 
 app.use("/api/products", productRoutes);
@@ -44,5 +50,3 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log("server running in port", PORT));
-
-connectDb();
