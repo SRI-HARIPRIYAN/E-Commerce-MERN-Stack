@@ -17,6 +17,7 @@ const Header = () => {
 
 	const [isAsideClicked, setIsAsideClicked] = useState(false);
 	const [isProfileClicked, setIsProfileClicked] = useState(false);
+	const [isAdminClicked, setAdminClicked] = useState(false);
 
 	const { cartItems } = useSelector((state) => state.cart);
 	const { userInfo } = useSelector((state) => state.user);
@@ -67,6 +68,48 @@ const Header = () => {
 		</div>
 	);
 
+	const showAdminNavBar = () => (
+		<div className="relative">
+			<div
+				className="cursor-pointer"
+				onClick={() => setAdminClicked((prevState) => !prevState)}
+			>
+				<MdOutlinePersonOutline className="inline" /> {userInfo?.name}
+				{isAdminClicked ? (
+					<RiArrowDropUpLine className="inline text-xl " />
+				) : (
+					<RiArrowDropDownLine className="inline text-xl " />
+				)}
+			</div>
+			{isAdminClicked && (
+				<div
+					className="absolute flex flex-col
+						 bg-slate-500 translate-y-1 p-1.5  rounded-md  text-center w-full text-white"
+				>
+					<Link
+						to="/admin/users"
+						className="cursor-pointer hover:bg-slate-600 rounded-md py-0.5"
+					>
+						Users
+					</Link>
+
+					<Link
+						to="/admin/products"
+						className="cursor-pointer hover:bg-slate-600 rounded-md py-0.5"
+					>
+						Products
+					</Link>
+					<Link
+						to="/admin/orders"
+						className="cursor-pointer hover:bg-slate-600 rounded-md py-0.5"
+					>
+						Orders
+					</Link>
+				</div>
+			)}
+		</div>
+	);
+
 	return (
 		<nav className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5  text-white ">
 			<div className="flex  justify-between items-center gap-1 md:gap-3">
@@ -96,6 +139,7 @@ const Header = () => {
 						<Link to="/login">Login</Link>
 					</div>
 				)}
+				{userInfo?.isAdmin && showAdminNavBar()}
 			</div>
 			<div
 				onClick={() => setIsAsideClicked((prevState) => !prevState)}
@@ -105,8 +149,12 @@ const Header = () => {
 			</div>
 			{isAsideClicked && (
 				<div className=" w-full left-0 flex flex-col md:hidden justify-around h-fit items-center bg-slate-600 text-inherit absolute text-black top-[64px]">
+					{userInfo?.isAdmin && showAdminNavBar()}
 					{userInfo && (
-						<Link to="/profile" className=" py-2 ">
+						<Link
+							to="/profile"
+							className=" border-t-2 w-[90%] border-white border-opacity-45 py-2  text-center"
+						>
 							<MdOutlinePersonOutline className="inline mr-1" />
 							{userInfo?.name}
 						</Link>
@@ -119,9 +167,10 @@ const Header = () => {
 							Login
 						</Link>
 					)}
+
 					<Link
 						to="/cart"
-						className="border-t-2 w-[90%] border-white border-opacity-45 text-center py-2 "
+						className="border-t-2 w-[90%] border-white  border-opacity-45 text-center py-2 "
 					>
 						<TiShoppingCart className="inline mr-1" /> Cart
 						<span className="bg-sky-300 rounded-full px-1 ml-1 ">

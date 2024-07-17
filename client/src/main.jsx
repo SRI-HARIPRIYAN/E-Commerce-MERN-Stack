@@ -24,6 +24,10 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
 import OrderScreen from "./screens/OrderScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 import SuccessScreen from "./screens/SuccessScreen.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
+import UserListScreen from "./screens/admin/UserListScreen.jsx";
+import ProductListScreen from "./screens/admin/ProductListScreen.jsx";
+import OrderListScreen from "./screens/admin/OrderListScreen.jsx";
 
 const router = createBrowserRouter(
 	//using createRoutesFromElements for conditional routing
@@ -42,6 +46,7 @@ const router = createBrowserRouter(
 				element={<ProductScreen />}
 			/>
 			<Route path="/cart" element={<CartScreen />} />
+			{/* Private Routes */}
 			<Route path="" element={<PrivateRoute />}>
 				<Route path="/shipping" element={<ShippingScreen />} />
 				<Route path="/payment" element={<PaymentScreen />} />
@@ -49,6 +54,12 @@ const router = createBrowserRouter(
 				<Route path="/orders/:id" element={<OrderScreen />} />
 				<Route path="/profile" element={<ProfileScreen />} />
 				<Route path="/success-screen" element={<SuccessScreen />} />
+			</Route>
+			{/* Admin routes */}
+			<Route path="" element={<AdminRoute />}>
+				<Route path="/admin/users" element={<UserListScreen />} />
+				<Route path="/admin/products" element={<ProductListScreen />} />
+				<Route path="/admin/orders" element={<OrderListScreen />} />
 			</Route>
 		</Route>
 	)
