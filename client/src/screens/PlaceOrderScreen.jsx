@@ -57,7 +57,7 @@ const PlaceOrderScreen = () => {
 					<p>{paymentMethod}</p>
 				</div>
 			</section>
-			<section className=" bg-gray-200 p-3 flex flex-col gap-3 sm:w-[300px] mx-auto">
+			<section className=" bg-gray-200 p-3 flex flex-col gap-3 sm:w-[400px] mx-auto">
 				<h2 className=" font-bold text-lg">Order Summary</h2>
 				<div>
 					<table className=" w-full">
@@ -70,22 +70,33 @@ const PlaceOrderScreen = () => {
 						</thead>
 						<tbody>
 							{cartItems.map((item) => (
-								<tr key={item._id} className="">
-									<td className="font-semibold ">
-										{item.name}
-									</td>
-									<td className="font-semibold ">
+								<tr
+									key={item._id}
+									className="border-b-2 border-gray-400"
+								>
+									<td className="font-light ">{item.name}</td>
+									<td className="font-light  text-center ">
 										{item.qty}
 									</td>
-									<td className="font-semibold">
+									<td className="font-light text-right">
 										{item.price * item.qty}
 									</td>
 								</tr>
 							))}
+							<tr className=" border-b-2 border-gray-400">
+								<td className=" ">Shipping</td>
+								<td className=" "></td>
+								<td className="text-right">{shippingPrice}</td>
+							</tr>
+							<tr className=" border-b-2 border-gray-400">
+								<td className=" ">Tax</td>
+								<td className=" "></td>
+								<td className="text-right">{taxPrice}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div>
+				<div className=" text-right font-bold">
 					<span>Total: {totalPrice}</span>
 				</div>
 				<button

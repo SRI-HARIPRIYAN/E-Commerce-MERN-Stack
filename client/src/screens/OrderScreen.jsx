@@ -2,6 +2,7 @@ import React from "react";
 import {
 	useGetOrderDetailsQuery,
 	usePayWithStripeMutation,
+	useDeliverOrderMutation,
 } from "../slices/orderApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -21,6 +22,8 @@ const OrderScreen = () => {
 
 	const [payWithStripe, { isLoading: loadingStripe }] =
 		usePayWithStripeMutation();
+	const [deliverOrder, { isLoading: deliverLoading }] =
+		useDeliverOrderMutation();
 
 	if (error) {
 		return toast.error(error.message);
@@ -28,10 +31,20 @@ const OrderScreen = () => {
 	if (isLoading) {
 		return <Spinner />;
 	}
-	const { shippingAddress, user, isDelivered, orderItems } = order;
+	const {
+		shippingAddress,
+		taxPrice,
+		shippingPrice,
+		user,
+		isDelivered,
+		orderItems,
+	} = order;
 
 	const calculateTotal = (orderItems) => {
-		return orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+		return orderItems.reduce(
+			(acc, item) => acc + item.price * item.qty + taxPrice,
+			0
+		);
 	};
 
 	const handleStripePayment = async (orderItems) => {
@@ -41,6 +54,10 @@ const OrderScreen = () => {
 		} catch (err) {
 			toast.error(err?.data?.message || err?.error);
 		}
+	};
+	const handleOrderDeliver = async (orderId) => {
+		await deliverOrder(orderId);
+		refetch();
 	};
 
 	return (
@@ -67,8 +84,9 @@ const OrderScreen = () => {
 						{isDelivered ? "Delivered" : "Not Delivered"}
 					</p>
 				</div>
+				{deliverLoading && <Spinner />}
 			</section>
-			<section className=" bg-gray-200 p-3 flex flex-col h-fit gap-3 sm:gap-5 sm:w-[300px] mx-auto">
+			<section className=" bg-gray-200 p-3 flex flex-col h-fit gap-3 sm:gap-5 sm:w-[400px] mx-auto">
 				<h2 className=" font-bold text-lg">Order Summary</h2>
 				<div>
 					<table className=" w-full">
@@ -81,22 +99,41 @@ const OrderScreen = () => {
 						</thead>
 						<tbody>
 							{orderItems?.map((item) => (
-								<tr key={item._id} className="">
-									<td className="font-semibold ">
+								<tr
+									key={item._id}
+									className=" border-b-2 border-gray-400"
+								>
+									<td className=" font-light text-md ">
 										{item.name}
 									</td>
-									<td className="font-semibold ">
+									<td className=" font-light text-md ">
 										{item.qty}
 									</td>
-									<td className="font-semibold">
+									<td className=" font-light text-md">
 										{(item.price * item.qty).toFixed(2)}
 									</td>
 								</tr>
 							))}
+							<tr className=" border-b-2 border-gray-400">
+								<td className=" font-light text-md ">
+									Shipping
+								</td>
+								<td className=" font-light text-md "></td>
+								<td className=" font-light text-md">
+									${shippingPrice}
+								</td>
+							</tr>
+							<tr className=" border-b-2 border-gray-400">
+								<td className=" font-light text-md ">Tax</td>
+								<td className=" font-light text-md "></td>
+								<td className=" font-light text-md">
+									${taxPrice}
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div>
+				<div className="text-right font-bold">
 					<span>Total: {calculateTotal(orderItems).toFixed(2)}</span>
 				</div>
 				<div className="flex gap-2 justify-start">
@@ -108,7 +145,10 @@ const OrderScreen = () => {
 					</button>
 
 					{userInfo.isAdmin && !order.isDelivered && (
-						<button className=" bg-black rounded-md py-1 px-1 text-white hover:bg-green-700">
+						<button
+							onClick={() => handleOrderDeliver(orderId)}
+							className=" bg-black rounded-md py-1 px-1 text-white hover:bg-green-700"
+						>
 							Mark as Delivered
 						</button>
 					)}

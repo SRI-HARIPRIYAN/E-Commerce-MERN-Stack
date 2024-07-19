@@ -35,6 +35,7 @@ passport(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 stripe(app);
 
 app.get("/", (req, res) => {
