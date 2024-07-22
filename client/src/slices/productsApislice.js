@@ -16,8 +16,40 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 			}),
 			keepUnusedDataFor: 5,
 		}),
+		createProduct: builder.mutation({
+			query: () => ({
+				url: PRODUCTS_URL,
+				method: "POST",
+			}),
+		}),
+		updateProduct: builder.mutation({
+			query: (product) => ({
+				url: `${PRODUCTS_URL}/${product.productId}`,
+				method: "PUT",
+				body: product,
+			}),
+		}),
+		uploadFileHandler: builder.mutation({
+			query: (data) => ({
+				url: "/api/upload",
+				method: "POST",
+				body: data,
+			}),
+		}),
+		deleteProduct: builder.mutation({
+			query: (productId) => ({
+				url: `${PRODUCTS_URL}/${productId}`,
+				method: "DELETE",
+			}),
+		}),
 	}),
 });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery } =
-	productsApiSlice;
+export const {
+	useGetProductsQuery,
+	useGetProductDetailsQuery,
+	useCreateProductMutation,
+	useUpdateProductMutation,
+	useUploadFileHandlerMutation,
+	useDeleteProductMutation,
+} = productsApiSlice;

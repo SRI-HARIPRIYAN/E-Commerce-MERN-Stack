@@ -39,19 +39,19 @@ const HomeScreen = () => {
 	}
 
 	return (
-		<>
+		<div className=" overflow-hidden">
 			{isLoading ? (
 				<Spinner />
 			) : error ? (
-				<h1>{} </h1>
+				<h1>Something went wrong </h1>
 			) : (
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 place-content-center mx-auto m-2">
+				<div className="  grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 place-content-center mx-auto m-2 ">
 					{products.map((product, index) => (
 						<Product key={index} product={product} />
 					))}
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
 

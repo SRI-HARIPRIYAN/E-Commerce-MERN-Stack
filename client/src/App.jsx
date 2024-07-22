@@ -7,7 +7,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 const App = () => {
 	return (
-		<div className="flex flex-col min-h-screen max-w-screen ">
+		<div className="flex flex-col min-h-screen max-w-screen">
 			<Header />
 			<main className="w-screen flex-grow h-full ">
 				<Outlet />

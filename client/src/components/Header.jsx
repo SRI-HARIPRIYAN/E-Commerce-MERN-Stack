@@ -111,11 +111,14 @@ const Header = () => {
 	);
 
 	return (
-		<nav className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5  text-white ">
-			<div className="flex  justify-between items-center gap-1 md:gap-3">
-				<p className="text-2xl md:text-3xl text-nowrap  font-extrabold ">
+		<header className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5 text-white ">
+			<div className="flex justify-between items-center gap-1 md:gap-3">
+				<Link
+					to="/"
+					className="text-2xl md:text-3xl text-nowrap  font-extrabold "
+				>
 					Eco-cart
-				</p>
+				</Link>
 				<div className=" ml-2 md:ml-10 flex items-center gap-1 md:gap-3">
 					<input
 						type="text"
@@ -188,7 +191,7 @@ const Header = () => {
 					)}
 				</div>
 			)}
-		</nav>
+		</header>
 	);
 };
 
