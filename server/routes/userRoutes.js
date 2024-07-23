@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 
 import {
 	loginUser,
@@ -7,10 +7,14 @@ import {
 	logoutUser,
 	forgotPassword,
 	resetPassword,
+	getUsers,
 } from "../controllers/userController.js";
+
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+router.route("/").get(protect, admin, getUsers);
 router.route("/login").post(loginUser);
 router.route("/register").post(registerUser);
 router.route("/update").put(updateUser);

@@ -151,6 +151,12 @@ const resetPassword = asyncHandler(async (req, res) => {
 		isAdmin: user.isAdmin,
 	});
 });
+
+const getUsers = asyncHandler(async (req, res) => {
+	const users = await User.find();
+	res.status(200).json(users);
+});
+
 export {
 	loginUser,
 	registerUser,
@@ -158,4 +164,5 @@ export {
 	logoutUser,
 	forgotPassword,
 	resetPassword,
+	getUsers,
 };
