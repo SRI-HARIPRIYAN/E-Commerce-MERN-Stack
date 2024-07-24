@@ -1,8 +1,13 @@
 import React from "react";
 import { useGetUsersQuery } from "../../slices/userApiSlilce";
+import { useNavigate } from "react-router-dom";
 
 const UserListScreen = () => {
+	const navigate = useNavigate();
 	const { data: users, isLoading, error } = useGetUsersQuery();
+	const handleUserEdit = (id) => {
+		navigate(`/admin/users/${id}/edit`);
+	};
 	return (
 		<div className=" h-full p-4 ">
 			<div className="">
@@ -33,16 +38,16 @@ const UserListScreen = () => {
 							<td className="border-2 py-1 px-3 text-center whitespace-nowrap">
 								{user.isAdmin ? "Admin" : "No"}
 							</td>
-							{!user.isAdmin && (
-								<td className="border-2 py-1 px-3 text-center flex justify-around items-center gap-3">
-									<button className="text-blue-400">
-										Edit
-									</button>
-									<button className="text-red-400">
-										Delete
-									</button>
-								</td>
-							)}
+
+							<td className="border-2 py-1 px-3 text-center flex justify-around items-center gap-3">
+								<button
+									onClick={() => handleUserEdit(user._id)}
+									className="text-blue-400"
+								>
+									Edit
+								</button>
+								<button className="text-red-400">Delete</button>
+							</td>
 						</tr>
 					))}
 				</tbody>

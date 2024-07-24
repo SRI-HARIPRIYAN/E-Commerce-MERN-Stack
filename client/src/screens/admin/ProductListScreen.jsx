@@ -20,7 +20,7 @@ const ProductListScreen = () => {
 		toast.error(error?.data?.message || error?.error);
 	}
 	const handleEditHandler = (id) => {
-		navigate(`/admin/product/${id}/edit`);
+		navigate(`/admin/products/${id}/edit`);
 	};
 	const handleDeleteHandler = async (id) => {
 		if (window.confirm("Are u sure you want to delete?")) {

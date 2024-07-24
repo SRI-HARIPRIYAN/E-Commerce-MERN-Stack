@@ -8,6 +8,7 @@ import {
 	forgotPassword,
 	resetPassword,
 	getUsers,
+	updateUserByAdmin,
 } from "../controllers/userController.js";
 
 import { protect, admin } from "../middleware/authMiddleware.js";
@@ -15,6 +16,7 @@ import { protect, admin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/").get(protect, admin, getUsers);
+router.route("/:id").put(protect, admin, updateUserByAdmin);
 router.route("/login").post(loginUser);
 router.route("/register").post(registerUser);
 router.route("/update").put(updateUser);
