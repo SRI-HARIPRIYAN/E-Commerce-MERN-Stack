@@ -1,12 +1,32 @@
 import React from "react";
-import { useGetUsersQuery } from "../../slices/userApiSlilce";
+import {
+	useDeleteUserMutation,
+	useGetUsersQuery,
+} from "../../slices/userApiSlilce";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UserListScreen = () => {
 	const navigate = useNavigate();
-	const { data: users, isLoading, error } = useGetUsersQuery();
+	const { data: users, isLoading, error, refetch } = useGetUsersQuery();
+	const [deleteUser] = useDeleteUserMutation();
 	const handleUserEdit = (id) => {
 		navigate(`/admin/users/${id}/edit`);
+	};
+	if (isLoading) return <Spinner />;
+	if (error) {
+		toast.error(error?.data?.message || error?.error);
+	}
+	const handleDeleteUser = async (id) => {
+		try {
+			if (window.confirm("Are you sure to delete the user")) {
+				const res = await deleteUser(id);
+				toast.success(res.message);
+				refetch;
+			}
+		} catch (error) {
+			toast.error(error?.data?.message || error?.error);
+		}
 	};
 	return (
 		<div className=" h-full p-4 ">
@@ -46,7 +66,12 @@ const UserListScreen = () => {
 								>
 									Edit
 								</button>
-								<button className="text-red-400">Delete</button>
+								<button
+									onClick={() => handleDeleteUser(user._id)}
+									className="text-red-400"
+								>
+									Delete
+								</button>
 							</td>
 						</tr>
 					))}

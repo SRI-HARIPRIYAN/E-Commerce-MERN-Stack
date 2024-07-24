@@ -170,6 +170,25 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
 		throw new Error("User not found!");
 	}
 });
+const getUserById = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id);
+	if (user) {
+		res.status(200).json(user);
+	} else {
+		res.status(404);
+		throw new Error("User NOt found!");
+	}
+});
+const deleteUser = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id);
+	if (user) {
+		await User.deleteOne({ _id: req.params.id });
+		res.status(204).json({ message: "User deleted" });
+	} else {
+		res.status(404);
+		throw new Error("User NOt found!");
+	}
+});
 
 export {
 	loginUser,
@@ -180,4 +199,6 @@ export {
 	resetPassword,
 	getUsers,
 	updateUserByAdmin,
+	getUserById,
+	deleteUser,
 };

@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUpdateUserByAdminMutation } from "../../slices/userApiSlilce";
+import {
+	useGetUserByIdQuery,
+	useUpdateUserByAdminMutation,
+} from "../../slices/userApiSlilce";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner";
 
 const UserEditScreen = () => {
 	const navigate = useNavigate();
 	const { id: userId } = useParams();
+	const {
+		data: user,
+		isLoading: userLoading,
+		error,
+	} = useGetUserByIdQuery(userId);
 	const [updateUserByAdmin, { isLoading }, refetch] =
 		useUpdateUserByAdminMutation();
 
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [isAdmin, setisAdmin] = useState(false);
+	const [name, setName] = useState(user?.name);
+	const [email, setEmail] = useState(user?.email);
+	const [isAdmin, setisAdmin] = useState(user?.isAdmin);
 
 	const handleUpdateUser = async () => {
 		try {
@@ -24,10 +32,19 @@ const UserEditScreen = () => {
 			});
 			navigate("/admin/users");
 			toast.success(res.message);
+			refetch();
 		} catch (error) {
 			toast.error(error?.data?.message || error?.error);
 		}
 	};
+
+	useEffect(() => {
+		if (user) {
+			setName(user.name);
+			setEmail(user.email);
+			setisAdmin(user.isAdmin);
+		}
+	}, [user]);
 	return (
 		<div className="w-full flex flex-col justify-center items-center mt-[100px]">
 			<h2 className=" font-bold text-lg">Update User</h2>
