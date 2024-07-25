@@ -5,23 +5,27 @@ import { PRODUCTS_URL } from "../constants.js";
 export const productsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getProducts: builder.query({
-			query: () => ({
+			query: (keyword) => ({
 				url: PRODUCTS_URL,
+				params: { keyword },
 			}),
 			keepUnusedDataFor: 5,
 		}),
+
 		getProductDetails: builder.query({
 			query: (productId) => ({
 				url: `${PRODUCTS_URL}/${productId}`,
 			}),
 			keepUnusedDataFor: 5,
 		}),
+
 		createProduct: builder.mutation({
 			query: () => ({
 				url: PRODUCTS_URL,
 				method: "POST",
 			}),
 		}),
+
 		updateProduct: builder.mutation({
 			query: (product) => ({
 				url: `${PRODUCTS_URL}/${product.productId}`,
@@ -29,6 +33,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 				body: product,
 			}),
 		}),
+
 		uploadFileHandler: builder.mutation({
 			query: (data) => ({
 				url: "/api/upload",
@@ -36,12 +41,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 				body: data,
 			}),
 		}),
+
 		deleteProduct: builder.mutation({
 			query: (productId) => ({
 				url: `${PRODUCTS_URL}/${productId}`,
 				method: "DELETE",
 			}),
 		}),
+
 		createReview: builder.mutation({
 			query: (data) => ({
 				url: `${PRODUCTS_URL}/${data.productId}/review`,

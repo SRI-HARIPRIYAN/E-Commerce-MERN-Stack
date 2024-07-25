@@ -7,16 +7,18 @@ import { toast } from "react-toastify";
 import { BACKEND_URL } from "../constants.js";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../slices/userSlice.js";
+import { useParams } from "react-router-dom";
 
 const HomeScreen = () => {
+	const { keyword } = useParams();
 	const dispatch = useDispatch();
-	const { data: products, isLoading, error } = useGetProductsQuery();
+	const { data: products, isLoading, error } = useGetProductsQuery(keyword);
 	const getUser = async () => {
 		try {
 			const res = await axios.get(`${BACKEND_URL}/auth/login/success`, {
 				withCredentials: true,
 			});
-			console.log(res.data);
+
 			dispatch(
 				setCredentials({
 					...res.data.user._json,
@@ -32,6 +34,7 @@ const HomeScreen = () => {
 	useEffect(() => {
 		getUser();
 	}, []);
+
 	if (isLoading) return <Spinner />;
 	if (error) {
 		toast.error(error?.data?.message || error?.error);
@@ -43,7 +46,7 @@ const HomeScreen = () => {
 			{isLoading ? (
 				<Spinner />
 			) : error ? (
-				<h1>Something went wrong </h1>
+				<h1>{toast.error(error)}</h1>
 			) : (
 				<div className="  grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 place-content-center mx-auto m-2 ">
 					{products.map((product, index) => (

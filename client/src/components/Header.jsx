@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -11,10 +11,12 @@ import { useLogoutMutation } from "../slices/userApiSlilce";
 import { logout } from "../slices/userSlice";
 
 const Header = () => {
+	const { keyword: urlKeyword } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [logoutApi] = useLogoutMutation();
 
+	const [keyword, setKeyword] = useState(urlKeyword || "");
 	const [isAsideClicked, setIsAsideClicked] = useState(false);
 	const [isProfileClicked, setIsProfileClicked] = useState(false);
 	const [isAdminClicked, setAdminClicked] = useState(false);
@@ -110,6 +112,16 @@ const Header = () => {
 		</div>
 	);
 
+	const handleSearch = (e) => {
+		e.preventDefault();
+		if (keyword) {
+			navigate(`/search/${keyword.trim()}`);
+			setKeyword("");
+		} else {
+			navigate("/");
+		}
+	};
+
 	return (
 		<header className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5 text-white ">
 			<div className="flex justify-between items-center gap-1 md:gap-3">
@@ -121,10 +133,15 @@ const Header = () => {
 				</Link>
 				<div className=" ml-2 md:ml-10 flex items-center gap-1 md:gap-3">
 					<input
+						value={keyword}
+						onChange={(e) => setKeyword(e.target.value)}
 						type="text"
 						className="w-32 md:h-7 md:w-44 bg-gray-500"
 					/>
-					<button className="bg-sky-400 px-1 rounded-sm md:py-0.5 ">
+					<button
+						onClick={handleSearch}
+						className="bg-sky-400 px-1 rounded-sm md:py-0.5 "
+					>
 						search
 					</button>
 				</div>
