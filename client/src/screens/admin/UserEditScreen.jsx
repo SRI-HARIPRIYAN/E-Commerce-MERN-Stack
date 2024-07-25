@@ -18,9 +18,9 @@ const UserEditScreen = () => {
 	const [updateUserByAdmin, { isLoading }, refetch] =
 		useUpdateUserByAdminMutation();
 
-	const [name, setName] = useState(user?.name);
-	const [email, setEmail] = useState(user?.email);
-	const [isAdmin, setisAdmin] = useState(user?.isAdmin);
+	const [name, setName] = useState(user?.name || "");
+	const [email, setEmail] = useState(user?.email || "");
+	const [isAdmin, setisAdmin] = useState(user?.isAdmin || false);
 
 	const handleUpdateUser = async () => {
 		try {
@@ -30,9 +30,8 @@ const UserEditScreen = () => {
 				isAdmin,
 				userId,
 			});
-			navigate("/admin/users");
 			toast.success(res.message);
-			refetch();
+			navigate("/admin/users");
 		} catch (error) {
 			toast.error(error?.data?.message || error?.error);
 		}
@@ -45,13 +44,11 @@ const UserEditScreen = () => {
 			setisAdmin(user.isAdmin);
 		}
 	}, [user]);
+	if (userLoading || isLoading) return <Spinner />;
 	return (
 		<div className="w-full flex flex-col justify-center items-center mt-[100px]">
 			<h2 className=" font-bold text-lg">Update User</h2>
-			<form
-				onSubmit={handleUpdateUser}
-				className=" w-[280px] sm:w-[400px] flex flex-col gap-2"
-			>
+			<form className=" w-[280px] sm:w-[400px] flex flex-col gap-2">
 				<div className="flex flex-col p-1 gap-1">
 					<label htmlFor="name">Name</label>
 					<input
@@ -87,10 +84,11 @@ const UserEditScreen = () => {
 					/>
 				</div>
 				<div className=" bg-blue-500 w-fit px-1 py-1 text-white rounded-md">
-					<button onClick={handleUpdateUser}>Update</button>
+					<button type="submit" onClick={handleUpdateUser}>
+						Update
+					</button>
 				</div>
 			</form>
-			{isLoading && <Spinner />}
 		</div>
 	);
 };

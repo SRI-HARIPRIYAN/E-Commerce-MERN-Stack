@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -76,6 +76,11 @@ const ProductEditScreen = () => {
 			toast.error(error?.data?.message || error?.error);
 		}
 	};
+
+	if (updateLoading || uploadLoading || productLoading) {
+		return <Spinner />;
+	}
+
 	return (
 		<div className="w-full flex justify-center items-center">
 			<form
