@@ -21,7 +21,7 @@ const ShippingScreen = () => {
 		navigate("/payment");
 	};
 	return (
-		<div className="w-full h-full  ">
+		<div className="w-full translate-y-24">
 			<form className="w-[280px] sm:w-[400px] flex flex-col gap-4 sm:gap-6 m-auto border-2 rounded-lg  p-4 sm:p-8">
 				<h2 className=" text-xl font-bold">Shipping</h2>
 				<div className="flex flex-col gap-1.5">

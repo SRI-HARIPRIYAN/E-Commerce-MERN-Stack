@@ -44,7 +44,7 @@ const RegisterScreen = () => {
 	};
 
 	return (
-		<div className="w-full  flex justify-center items-center mx-auto ">
+		<div className="w-full  flex justify-center translate-y-12 items-center mx-auto ">
 			{isLoading ? (
 				<Spinner />
 			) : (

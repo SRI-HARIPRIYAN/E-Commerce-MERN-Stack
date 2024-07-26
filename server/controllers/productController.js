@@ -2,6 +2,8 @@ import Product from "../models/productModel.js";
 import asyncHandler from "express-async-handler";
 
 const getProducts = asyncHandler(async (req, res) => {
+	const pageNumber = +req.query.pageNumber || 1;
+	const pageSize = process.env.PAGINATION_LIMIT;
 	const keyword = req.query.keyword
 		? {
 				name: {
@@ -10,8 +12,11 @@ const getProducts = asyncHandler(async (req, res) => {
 				},
 		  }
 		: {};
-	const products = await Product.find({ ...keyword });
-	res.json(products);
+	const count = await Product.countDocuments({ ...keyword });
+	const products = await Product.find({ ...keyword })
+		.limit(pageSize)
+		.skip(pageSize * (pageNumber - 1));
+	res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
 });
 
 const getProductById = asyncHandler(async (req, res) => {
@@ -103,8 +108,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 		throw new Error("Product not found");
 	}
 });
-
-const getProductsForSearch = asyncHandler(async (req, res) => {});
 
 export {
 	getProducts,

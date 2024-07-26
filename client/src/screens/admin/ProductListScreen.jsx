@@ -1,20 +1,28 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	useCreateProductMutation,
 	useDeleteProductMutation,
 	useGetProductsQuery,
 } from "../../slices/productsApislice";
 import Spinner from "../../components/Spinner";
+import Paginate from "../../components/Paginate";
+import { useSelector } from "react-redux";
 
 const ProductListScreen = () => {
+	const { pageNumber } = useParams();
 	const navigate = useNavigate();
-	const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+	const { data, isLoading, error, refetch } = useGetProductsQuery({
+		pageNumber,
+	});
 	const [createProduct, { isLoading: createLoading }] =
 		useCreateProductMutation();
 	const [deleteProduct, { isLoading: deleteLoading }] =
 		useDeleteProductMutation();
+
+	const { userInfo } = useSelector((state) => state.user);
+
 	if (isLoading) return <Spinner />;
 	if (error) {
 		toast.error(error?.data?.message || error?.error);
@@ -66,7 +74,7 @@ const ProductListScreen = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{products?.map((product) => (
+					{data?.products?.map((product) => (
 						<tr key={product._id}>
 							<td className="border-2 py-1 px-3 text-center whitespace-nowrap">
 								{product._id}
@@ -102,6 +110,13 @@ const ProductListScreen = () => {
 					))}
 				</tbody>
 			</table>
+			<div className="flex justify-center mt-12">
+				<Paginate
+					pages={data?.pages}
+					page={data?.pageNumber}
+					isAdmin={userInfo.isAdmin}
+				/>
+			</div>
 			{deleteLoading && <Spinner />}
 			{createLoading && <Spinner />}
 		</div>

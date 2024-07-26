@@ -63,7 +63,7 @@ const LoginScreen = () => {
 	};
 
 	return (
-		<div className="w-full  flex justify-center items-center mx-auto ">
+		<div className="w-full  flex justify-center translate-y-32 items-center mx-auto ">
 			{isLoading || isPasswordLoading ? (
 				<Spinner />
 			) : (

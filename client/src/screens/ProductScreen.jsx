@@ -29,12 +29,19 @@ const ProductScreen = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	if (createReviewLoading) {
+		return <Spinner />;
+	}
+
 	const addToCartHandler = () => {
 		dispatch(addToCart({ ...product, qty }));
 		navigate("/cart");
 	};
 	const handleCreateReview = async (e) => {
 		e.preventDefault();
+		if (userComment === "") {
+			return alert("Comment cannot be empty");
+		}
 		try {
 			const res = await createReview({
 				productId,
@@ -45,6 +52,7 @@ const ProductScreen = () => {
 			setUserComment("");
 			refetch();
 		} catch (error) {
+			setUserComment("");
 			toast.error(error?.data?.message || error?.error);
 		}
 	};
@@ -183,7 +191,7 @@ const ProductScreen = () => {
 								Submit review
 							</button>
 						</div>
-						{createReviewLoading && <Spinner />}
+
 						{!userInfo && (
 							<div className="  italic text-sm">
 								Please{" "}

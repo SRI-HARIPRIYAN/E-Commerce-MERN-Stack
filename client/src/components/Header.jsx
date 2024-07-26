@@ -123,7 +123,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className="w-screen bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5 text-white ">
+		<header className="w-full bg-slate-800 h-16 flex justify-between p-1 md:p-2 md:px-6 items-center gap-1.5 text-white ">
 			<div className="flex justify-between items-center gap-1 md:gap-3">
 				<Link
 					to="/"

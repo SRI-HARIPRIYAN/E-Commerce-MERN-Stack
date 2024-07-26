@@ -40,7 +40,7 @@ const PlaceOrderScreen = () => {
 		}
 	};
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-[300px] sm:w-full mx-auto sm:pt-10 sm:pl-10 ">
+		<div className="grid translate-y-24 grid-cols-1 sm:grid-cols-2 gap-4 w-[300px] sm:w-full mx-auto sm:pt-10 sm:pl-10 ">
 			<section className="p-3 flex flex-col gap-2">
 				<h2 className="font-bold text-lg">Place Order</h2>
 				<div className="flex flex-col gap-2 p-1">

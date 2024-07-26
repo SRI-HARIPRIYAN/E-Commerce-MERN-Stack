@@ -65,17 +65,26 @@ const OrderScreen = () => {
 			<section className="p-3 flex flex-col gap-2">
 				<h2 className="font-bold text-lg sm:text-xl">Order Details</h2>
 				<div className="flex flex-col gap-2 p-2">
-					<h3 className="font-semibold">Order Number:</h3>
+					<h3 className="font-bold">Order Number:</h3>
 					<p>{orderId}</p>
 				</div>
 				<div className="flex flex-col gap-2 p-2">
-					<h3 className="font-semibold">Shipping Details:</h3>
-					<p>Name:{user.name}</p>
-					<p>Email:{user.email}</p>
-					<p>Address:{shippingAddress.address}</p>
+					<h3 className="font-bold">Shipping Details:</h3>
+					<p>
+						<span className=" font-semibold">Name:</span>{" "}
+						{user.name}
+					</p>
+					<p>
+						<span className=" font-semibold">Email:</span>{" "}
+						{user.email}
+					</p>
+					<p>
+						<span className=" font-semibold">Address:</span>{" "}
+						{shippingAddress.address}
+					</p>
 				</div>
 				<div className="flex flex-col gap-2 p-2">
-					<h3 className="font-semibold">Order Status:</h3>
+					<h3 className="font-bold">Order Status:</h3>
 					<p
 						className={`${
 							isDelivered ? "text-green-500" : "text-red-500"
@@ -110,7 +119,7 @@ const OrderScreen = () => {
 										{item.qty}
 									</td>
 									<td className=" font-light text-md">
-										{(item.price * item.qty).toFixed(2)}
+										${(item.price * item.qty).toFixed(2)}
 									</td>
 								</tr>
 							))}
